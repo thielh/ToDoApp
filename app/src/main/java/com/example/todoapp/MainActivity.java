@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
 
-    // TEST GITHUB
+    // TEST COMMENT 2
 
     DatabaseHelper databaseHelper;
     ArrayAdapter<String> mAdapter;
