@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,9 +17,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
-
-    // TEST COMMENT 2
 
     DatabaseHelper databaseHelper;
     ArrayAdapter<String> mAdapter;
@@ -34,15 +32,15 @@ public class MainActivity extends AppCompatActivity {
         FirstTask = (ListView)findViewById(R.id.FirstTask);
 
 
-
         loadTaskList();
     }
 
-    private void loadTaskList() {
+    // TASK LIST IS LOADED, METHOD CALLED IN THE ONCREATE & ADDTASK & DELETETASK & TODO: CHANGETASK
+    public void loadTaskList() {
         ArrayList<String> taskList = databaseHelper.getTaskList();
         if(mAdapter==null) {
-            mAdapter = new ArrayAdapter<String>(this, R.layout.row, R.id.task_title, taskList);
-            FirstTask.setAdapter(mAdapter);
+            mAdapter = new ArrayAdapter<>(this, R.layout.row, R.id.task_title, taskList);
+            FirstTask.setAdapter(mAdapter);  // FirstTask is the ListView in the row.xml
         }
         else {
             mAdapter.clear();
@@ -51,38 +49,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // MENU
+    // MENU AT THE TOP OF SCREEN
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-
-
-    // ADD A TASK THROUGH THE MENU
-    @Override
+    // CALL NEW ACTIVITY AddTaskActivity THROUGH THE MENU ITEM (BUTTON +)
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_add_task) {
-            final EditText taskEditText = new EditText(this);
-            AlertDialog dialog = new AlertDialog.Builder(this)
-                    .setTitle("Add New Task")
-                    .setMessage("What do you want to do next?")
-                    .setView(taskEditText)
-                    .setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            databaseHelper.AddNewTask(String.valueOf(taskEditText.getText()));
-                            loadTaskList();
-                        }
-                    })
-                    .setNegativeButton("Cancel", null)
-                    .create();
-                    dialog.show();
-            return true;
+        switch(item.getItemId()) {
+            case R.id.action_add_task:
+                Intent intent = new Intent(this, AddTaskActivity.class);
+                this.startActivity(intent);
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
+
 
     // DELETE A TASK
     public void DeleteTask(View view) {

@@ -9,20 +9,29 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-50dp">
 
         <TextView
             android:id="@+id/task_title"
-            android:layout_width="272dp"
+            android:layout_width="248dp"
             android:layout_height="38dp"
             android:textSize="20sp" />
 
         <Button
             android:id="@+id/DeleteButton"
-            android:layout_width="wrap_content"
+            android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:onClick="DeleteTask"
             android:text="DELETE" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="EDIT" />
 
     </LinearLayout>
 
