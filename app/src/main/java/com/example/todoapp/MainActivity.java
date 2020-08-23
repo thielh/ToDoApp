@@ -22,8 +22,6 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<String> mAdapter;
     ListView FirstTask;
 
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -50,13 +48,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // MENU AT THE TOP OF SCREEN
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-    // CALL NEW ACTIVITY AddTaskActivity THROUGH THE MENU ITEM (BUTTON +)
+    // JUMP TO AddTaskActivity VIA MENU ITEM (BUTTON +)
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_add_task:
@@ -69,8 +66,14 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    // JUMP TO EditTaskActivity VIA EDIT BUTTON
+    public void onClickEditTask(View view) {
+        Intent intent = new Intent(this, EditTaskActivity.class);
+        this.startActivity(intent);
+    }
 
-    // DELETE A TASK
+
+    // DELETE BUTTON
     public void DeleteTask(View view) {
         View parent = (View)view.getParent();
         TextView taskTextView = (TextView)parent.findViewById(R.id.task_title);

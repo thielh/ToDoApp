@@ -23,13 +23,15 @@ public class AddTaskActivity extends AppCompatActivity {
         final EditText enter_name = (EditText) findViewById(R.id.enter_name);
         final EditText enter_description = (EditText) findViewById(R.id.enter_description);
         final EditText enter_date = (EditText) findViewById(R.id.enter_date);
-        final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBox);
+        final CheckBox enter_checkFav = (CheckBox) findViewById(R.id.enter_checkFav);
         Button button_add = (Button) findViewById(R.id.button_addtask);
+
+        // TODO: restrict format for user to enter date: xx.xx.xxxx
 
         button_add.setOnClickListener(new View.OnClickListener() {
             public void onClick (View view){
                 String Status = "FALSE";
-                if (checkBox.isChecked() == TRUE) {
+                if (enter_checkFav.isChecked() == TRUE) {
                 databaseHelper.AddNewTask(enter_name.getText().toString(), enter_description.getText().toString(), Status, enter_date.getText().toString(), "TRUE");
                 } else {
                     databaseHelper.AddNewTask(enter_name.getText().toString(), enter_description.getText().toString(), Status, enter_date.getText().toString(), "FALSE");

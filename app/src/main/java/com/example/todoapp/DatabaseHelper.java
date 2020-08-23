@@ -26,7 +26,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DB_NAME, null, DB_VER);
     }
 
-
     // define Database access
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE table_task (ID INTEGER PRIMARY KEY AUTOINCREMENT, TaskName TEXT, Description TEXT, Status TEXT, DueDate TEXT, Favourite TEXT)";

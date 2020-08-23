@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -21,7 +24,7 @@
                 android:text="Task Name" />
 
             <EditText
-                android:id="@+id/enter_name"
+                android:id="@+id/edit_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -43,7 +46,7 @@
                 android:text="Description" />
 
             <EditText
-                android:id="@+id/enter_description"
+                android:id="@+id/edit_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -64,7 +67,7 @@
                 android:text="Add Due Date" />
 
             <EditText
-                android:id="@+id/enter_date"
+                android:id="@+id/edit_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -78,7 +81,7 @@
             android:orientation="horizontal">
 
             <CheckBox
-                android:id="@+id/enter_checkFav"
+                android:id="@+id/edit_checkFav"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -86,10 +89,26 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/edit_checkDone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Mark task as done" />
+
+        </LinearLayout>
+
         <Button
-            android:id="@+id/button_addtask"
+            android:id="@+id/button_edittask"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ADD TASK" />
+            android:text="SAVE CHANGES" />
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
