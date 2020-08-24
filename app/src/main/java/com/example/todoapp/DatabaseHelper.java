@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -50,6 +51,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    // CHANGE A TASK
+    public void ChangeTask (String old_taskName, String taskName, String taskDes, String taskStatus, String taskDue, String taskFav) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DB_COL_NAME, taskName);
+        values.put(DB_COL_DESC, taskDes);
+        values.put(DB_COL_STATUS, taskStatus);
+        values.put(DB_COL_DUE, taskDue);
+        values.put(DB_COL_FAV, taskFav);
+        db.update(DB_TABLE, values, "TaskName= '"+old_taskName+"'", null);
+        db.close();
+    }
+
 
     // DELETE A TASK
     public void DeleteTask (String task) {
@@ -62,15 +76,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public ArrayList<String> getTaskList() {
         ArrayList<String> taskList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        // Cursor ResultCursor = db.query(DB_TABLE, new String[] {DB_COL_NAME}, null, null, null, null, null);
-        Cursor ResultCursor = db.query(DB_TABLE, new String[] {DB_COL_NAME}, null, null, null, null, null);
-        while(ResultCursor.moveToNext()) {
-            int index = ResultCursor.getColumnIndex(DB_COL_NAME);
-            taskList.add(ResultCursor.getString(index));
+        Cursor resultCursor = db.query(DB_TABLE, new String[] {DB_COL_NAME}, null, null, null, null, null);
+        while(resultCursor.moveToNext()) {
+            int index = resultCursor.getColumnIndex(DB_COL_NAME);
+            taskList.add(resultCursor.getString(index));
         }
-        ResultCursor.close();
+        resultCursor.close();
         db.close();
         return taskList;
     }
+
+    // 24.08.2020
+    // FETCH DATA
+    public String[] FetchData(String task) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor resultCursor = db.rawQuery("Select * from " +DB_TABLE+ " WHERE " +DB_COL_NAME+ " = '" +task+ "';",null);
+        resultCursor.moveToFirst();
+        String Description = resultCursor.getString(2);
+        String Status = resultCursor.getString(3);
+        String DueDate = resultCursor.getString(4);
+        String Favourite = resultCursor.getString(5);
+
+        String[] allData = {Description, Status, DueDate, Favourite};
+        return allData;
+    }
+
+
 
 }

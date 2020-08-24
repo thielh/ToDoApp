@@ -68,13 +68,18 @@ public class MainActivity extends AppCompatActivity {
 
     // JUMP TO EditTaskActivity VIA EDIT BUTTON
     public void onClickEditTask(View view) {
+        View parent = (View)view.getParent();
+        // which task am I selecting to edit?
+        TextView taskTextView = (TextView)parent.findViewById(R.id.task_title);
+        String task = String.valueOf(taskTextView.getText());
         Intent intent = new Intent(this, EditTaskActivity.class);
+        intent.putExtra("data", task);
         this.startActivity(intent);
     }
 
 
     // DELETE BUTTON
-    public void DeleteTask(View view) {
+    public void onClickDeleteTask(View view) {
         View parent = (View)view.getParent();
         TextView taskTextView = (TextView)parent.findViewById(R.id.task_title);
         String task = String.valueOf(taskTextView.getText());

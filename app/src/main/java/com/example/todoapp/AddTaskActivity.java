@@ -31,11 +31,8 @@ public class AddTaskActivity extends AppCompatActivity {
         button_add.setOnClickListener(new View.OnClickListener() {
             public void onClick (View view){
                 String Status = "FALSE";
-                if (enter_checkFav.isChecked() == TRUE) {
-                databaseHelper.AddNewTask(enter_name.getText().toString(), enter_description.getText().toString(), Status, enter_date.getText().toString(), "TRUE");
-                } else {
-                    databaseHelper.AddNewTask(enter_name.getText().toString(), enter_description.getText().toString(), Status, enter_date.getText().toString(), "FALSE");
-                }
+                String checkFav = String.valueOf(enter_checkFav.isChecked());
+                databaseHelper.AddNewTask(enter_name.getText().toString(), enter_description.getText().toString(), Status, enter_date.getText().toString(), checkFav);
 
                 Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
                 AddTaskActivity.this.startActivity(intent);
