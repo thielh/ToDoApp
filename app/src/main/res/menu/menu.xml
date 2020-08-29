@@ -2,10 +2,35 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item
+        android:id="@+id/action_clickonfilter"
+        android:icon="@drawable/ic_filter"
+        android:title="Filter"
+        app:showAsAction="always">
+
+        <menu>
+
+            <item
+                android:id="@+id/action_filter1"
+                android:title="Show tasks for today" />
+            <item
+                android:id="@+id/action_filter2"
+                android:title="Sort by due date" />
+            <item
+                android:id="@+id/action_filter3"
+                android:title="Show my Favourites" />
+            <item
+                android:id="@+id/action_filter4"
+                android:title="Show all done tasks" />
+
+        </menu>
+    </item>
 
     <item
         android:id="@+id/action_add_task"
-        android:icon="@android:drawable/ic_menu_add"
+        android:icon="@drawable/ic_add"
         android:title="add a task"
         app:showAsAction="always" />
+
+
 </menu>

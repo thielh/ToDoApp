@@ -1,10 +1,12 @@
 package com.example.todoapp;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,39 +15,50 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     DatabaseHelper databaseHelper;
-    ArrayAdapter<String> mAdapter;
+    ArrayList<Task> taskList;
     ListView FirstTask;
+    ListView listView;
+    Task task;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        databaseHelper = new DatabaseHelper(this);
-        FirstTask = (ListView)findViewById(R.id.FirstTask);
-
-
         loadTaskList();
     }
 
-    // TASK LIST IS LOADED, METHOD CALLED IN THE ONCREATE & ADDTASK & DELETETASK & TODO: CHANGETASK
-    public void loadTaskList() {
-        ArrayList<String> taskList = databaseHelper.getTaskList();
-        if(mAdapter==null) {
-            mAdapter = new ArrayAdapter<>(this, R.layout.row, R.id.task_title, taskList);
-            FirstTask.setAdapter(mAdapter);  // FirstTask is the ListView in the row.xml
-        }
-        else {
-            mAdapter.clear();
-            mAdapter.addAll(taskList);
-            mAdapter.notifyDataSetChanged();
+    public void loadTaskList(){
+        databaseHelper = new DatabaseHelper(this);
+        FirstTask = (ListView)findViewById(R.id.FirstTask);
+
+        // 29.08.2020
+        // TEST
+        taskList = new ArrayList<>();
+        Cursor cursor = databaseHelper.getListContents();
+
+        // get amount of data rows that are stored in my DB:
+        int numRows = cursor.getCount();
+        // make sure at least 1 row of data is in DB:
+        if (numRows == 0){
+            Toast.makeText(MainActivity.this, "there is nothing in the Database", Toast.LENGTH_LONG).show();
+        } else {
+            while(cursor.moveToNext()) {
+                task = new Task(cursor.getString(1), cursor.getString(4));
+                taskList.add(task);
+            }
+            TwoColumn_ListAdapter adapter = new TwoColumn_ListAdapter(this, R.layout.row, taskList);
+            listView = (ListView) findViewById(R.id.FirstTask);
+            listView.setAdapter(adapter);
         }
     }
+
 
     // MENU AT THE TOP OF SCREEN
     public boolean onCreateOptionsMenu(Menu menu) {

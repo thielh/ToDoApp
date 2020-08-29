@@ -8,9 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME="tasks_2";
@@ -72,22 +69,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    // SHOW DATABASE LIST
-    public ArrayList<String> getTaskList() {
-        ArrayList<String> taskList = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor resultCursor = db.query(DB_TABLE, new String[] {DB_COL_NAME}, null, null, null, null, null);
-        while(resultCursor.moveToNext()) {
-            int index = resultCursor.getColumnIndex(DB_COL_NAME);
-            taskList.add(resultCursor.getString(index));
-        }
-        resultCursor.close();
-        db.close();
-        return taskList;
-    }
-
     // 24.08.2020
-    // FETCH DATA
+    // FETCH DATA FOR 1 SELECTED TASK
     public String[] FetchData(String task) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor resultCursor = db.rawQuery("Select * from " +DB_TABLE+ " WHERE " +DB_COL_NAME+ " = '" +task+ "';",null);
@@ -101,6 +84,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return allData;
     }
 
-
+    // 29.08.2020
+    // FETCH ALL DATA
+    public Cursor getListContents(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+DB_TABLE, null);
+        return cursor;
+    }
 
 }
