@@ -2,17 +2,12 @@ package com.example.todoapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
 
 public class EditTaskActivity extends AppCompatActivity {
 
@@ -35,7 +30,7 @@ public class EditTaskActivity extends AppCompatActivity {
 
         // USE CURRENT SELECTED TASK TO FETCH REMAINING DATA FROM ALL COLUMNS
         // Array contains: Description, Status, DueDate, Favourite
-        String[] allData = databaseHelper.FetchData(task);
+        String[] allData = databaseHelper.FetchDataForEdit(task);
 
         // MOVE THE ARRAY DATA INTO VARIABLES
         String Description = allData[0];
@@ -55,7 +50,7 @@ public class EditTaskActivity extends AppCompatActivity {
 
         // SAME AS IN AddTask
 
-        Button button_save = (Button) findViewById(R.id.button_edittask);
+        Button button_save = (Button) findViewById(R.id.button_mailtask);
 
         button_save.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {

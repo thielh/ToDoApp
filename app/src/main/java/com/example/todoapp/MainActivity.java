@@ -4,6 +4,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -27,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     Task task;
 
+    public String StatusSortAndFilter ="empty";
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -34,18 +38,18 @@ public class MainActivity extends AppCompatActivity {
         loadTaskList();
     }
 
+
     public void loadTaskList(){
         databaseHelper = new DatabaseHelper(this);
-        FirstTask = (ListView)findViewById(R.id.FirstTask);
 
         // 29.08.2020
         // TEST
         taskList = new ArrayList<>();
-        Cursor cursor = databaseHelper.getListContents();
+        Cursor cursor = databaseHelper.getListContents(StatusSortAndFilter);
 
-        // get amount of data rows that are stored in my DB:
+        // get amount of data rows pulled from DB
         int numRows = cursor.getCount();
-        // make sure at least 1 row of data is in DB:
+        // make sure at least 1 row of data is selected;
         if (numRows == 0){
             Toast.makeText(MainActivity.this, "there is nothing in the Database", Toast.LENGTH_LONG).show();
         } else {
@@ -73,11 +77,31 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, AddTaskActivity.class);
                 this.startActivity(intent);
                 break;
+            case R.id.action_filter1:
+                StatusSortAndFilter = "DueToday";
+                break;
+            case R.id.action_filter2:
+                StatusSortAndFilter = "SortDueDate";
+                break;
+            case R.id.action_filter3:
+                StatusSortAndFilter = "Fav";
+                break;
+            case R.id.action_filter4:
+                StatusSortAndFilter = "Done";
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
+        loadTaskList();
         return true;
     }
+
+        /* TODO: 30.08.2020
+        IF onClickFilter1 == TRUE,                      // SWITCH???
+        Cursor cursor = databaseHelper.getListContentsForFilter1();
+        IF onClickFilter2 == TRUE,
+        Cursor cursor = databaseHelper.getListContentsForFilter2();
+         else */
 
     // JUMP TO EditTaskActivity VIA EDIT BUTTON
     public void onClickEditTask(View view) {
@@ -98,5 +122,16 @@ public class MainActivity extends AppCompatActivity {
         String task = String.valueOf(taskTextView.getText());
         databaseHelper.DeleteTask(task);
         loadTaskList();
+    }
+
+
+    public void onClickMail(View view) {
+        View parent = (View)view.getParent();
+        // which task am I selecting to edit?
+        TextView taskTextView = (TextView)parent.findViewById(R.id.task_title);
+        String task = String.valueOf(taskTextView.getText());
+        Intent intent = new Intent(this, MailTaskActivity.class);
+        intent.putExtra("data", task);
+        this.startActivity(intent);
     }
 }

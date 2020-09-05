@@ -5,8 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -71,7 +76,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // 24.08.2020
     // FETCH DATA FOR 1 SELECTED TASK
-    public String[] FetchData(String task) {
+    public String[] FetchDataForEdit(String task) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor resultCursor = db.rawQuery("Select * from " +DB_TABLE+ " WHERE " +DB_COL_NAME+ " = '" +task+ "';",null);
         resultCursor.moveToFirst();
@@ -81,15 +86,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String Favourite = resultCursor.getString(5);
 
         String[] allData = {Description, Status, DueDate, Favourite};
+        db.close();
         return allData;
     }
 
     // 29.08.2020
     // FETCH ALL DATA
-    public Cursor getListContents(){
+    public Cursor getListContents(String status){
+        Log.d("WHAT IS STATUS", status);
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM "+DB_TABLE, null);
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat datetoday = new SimpleDateFormat("yyyy.MM.dd");
+        String date = datetoday.format(cal.getTime());
+        Cursor cursor;
+        switch(status) {
+            case "DueToday":
+                cursor = db.rawQuery("SELECT * FROM "+DB_TABLE+" WHERE "+DB_COL_DUE+" = '"+date+"'", null);
+                // Log.d("TEST1", "you clicked due today");
+                break;
+            case "SortDueDate":
+                cursor = db.rawQuery("SELECT * FROM "+DB_TABLE+" ORDER BY "+DB_COL_DUE+" ASC", null);
+                // Log.d("TEST2", "you clicked sortby due date");
+                break;
+            case "Fav":
+                cursor = db.rawQuery("SELECT * FROM "+DB_TABLE+" WHERE "+DB_COL_FAV+" = 'true'", null);
+                // Log.d("TEST3", "you clicked show favs");
+                break;
+            case "Done":
+                cursor = db.rawQuery("SELECT * FROM "+DB_TABLE+" WHERE "+DB_COL_STATUS+" = 'true'", null);
+                // Log.d("TEST4", "you clicked show tasks done");
+                break;
+            default:
+                cursor = db.rawQuery("SELECT * FROM "+DB_TABLE+" WHERE "+DB_COL_STATUS+" = 'false'", null);
+        }
+        Log.d("WHAT IS CURSOR", String.valueOf(cursor.getCount()));
+        db.close();
         return cursor;
     }
+
+    // 30.08.2020
+    // FETCH ONLY DATA FOR
 
 }

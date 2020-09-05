@@ -16,6 +16,8 @@
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_weight="10"
+            android:clickable="true"
+            android:onClick="onClickEditTask"
             android:textSize="18sp" />
 
         <TextView
@@ -38,8 +40,8 @@
             android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:onClick="onClickEditTask"
-            android:text="EDIT" />
+            android:onClick="onClickMail"
+            android:text="MAIL" />
 
     </LinearLayout>
 

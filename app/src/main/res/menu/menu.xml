@@ -26,6 +26,7 @@
         </menu>
     </item>
 
+
     <item
         android:id="@+id/action_add_task"
         android:icon="@drawable/ic_add"
